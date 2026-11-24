@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Opu</title>
+<meta name="theme-color" content="#d9eeff">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.webmanifest" id="manifestLink">
+<link rel="icon" href="icon-192.png" id="favicon">
+<link rel="apple-touch-icon" href="apple-touch-icon.png" id="touchIcon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <linearGradient id="mCloud" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#bfe0ff"/></linearGradient>
+</defs></svg>
+
+<!-- ───── opening animation ───── -->
+<div id="boot" aria-label="Opu is starting">
+  <div class="stack">
+    <div class="mas" data-mascot></div>
+    <h1 aria-label="Opu"><span>O</span><span>p</span><span>u</span></h1>
+    <p>your little cloud is waking up</p>
+    <div class="bar"><i></i></div>
+  </div>
+</div>
+
+<!-- ───── the cute app ───── -->
+<div id="app" hidden>
+  <header class="a-head">
+    <img class="logo" id="appLogo" src="logo-round.png" alt="Opu">
+    <div class="who"><b id="opuTitle">Opu</b><small><i class="dot" id="netDot"></i><span id="statusTxt">here with you</span></small></div>
+    <button class="round" id="btnSummon" aria-label="Call Opu to the screen" data-i="sparkle"></button>
+    <button class="round" id="btnDash" aria-label="Open dashboard" data-i="grid"></button>
+    <button class="round" id="btnSettings" aria-label="Settings" data-i="sliders"></button>
+  </header>
+
+  <main class="a-main">
+    <section class="view on" id="v-chat">
+      <div class="scroll" id="chatScroll"><div id="msgs"></div></div>
+      <div class="chips" id="chips"></div>
+      <div class="composer">
+        <button class="fab mic" id="micBtn" aria-label="Talk to Opu" data-i="mic"></button>
+        <textarea id="input" rows="1" placeholder="Talk to Opu…" aria-label="Message"></textarea>
+        <button class="fab send" id="sendBtn" aria-label="Send" data-i="send"></button>
+      </div>
+    </section>
+
+    <section class="view" id="v-mood"><div class="scroll">
+      <div class="card-a">
+        <h3><span data-i="heart"></span> Little words for you</h3>
+        <div class="seg" id="moodSeg"><button data-m="sad">I feel low</button><button data-m="happy">I feel good</button></div>
+        <div class="quote" id="quoteText"></div>
+        <div class="row"><button class="btn" id="qNew">Another</button><button class="btn sky" id="qAI">Opu writes one</button><button class="btn soft" id="qSpeak">Read it to me</button></div>
+      </div>
+      <div class="card-a">
+        <h3><span data-i="sparkle"></span> Help me decide</h3>
+        <p>Tell me what you're stuck on. We'll think it through together and you make the call.</p>
+        <div class="field"><textarea id="decideIn" placeholder="What are you deciding between?"></textarea></div>
+        <button class="btn" id="decideGo">Think with me</button>
+      </div>
+      <div class="card-a">
+        <h3><span data-i="cloud"></span> Today</h3>
+        <div class="row" id="todayRow"></div>
+      </div>
+    </div></section>
+
+    <section class="view" id="v-media"><div class="scroll">
+      <div class="card-a">
+        <h3><span data-i="play"></span> YouTube</h3>
+        <div id="ytBox"><div id="ytPlayer"></div></div>
+        <div class="yt-now" id="ytNow">Nothing playing. Say "play lofi" in chat, or search here.</div>
+        <div class="field"><input id="ytQ" placeholder="Search YouTube…" aria-label="Search YouTube"></div>
+        <div class="row">
+          <button class="btn" id="ytGo">Search and play</button>
+          <button class="btn soft" id="ytPrev" aria-label="Previous" data-i="prev"></button>
+          <button class="btn soft" id="ytPlay" aria-label="Play or pause" data-i="play"></button>
+          <button class="btn soft" id="ytNext" aria-label="Next" data-i="next"></button>
+        </div>
+        <p class="hint" id="ytHint" style="margin-top:10px"></p>
+      </div>
+      <div class="card-a">
+        <h3><span data-i="send"></span> Open other apps</h3>
+        <p>I always ask you before I open anything.</p>
+        <div class="row" style="margin-bottom:12px">
+          <button class="btn soft" data-open="reels">Instagram Reels</button>
+          <button class="btn soft" data-open="insta">Instagram</button>
+        </div>
+        <div class="field"><span>A prompt to hand to another AI</span><textarea id="askIn" placeholder="Write the prompt here"></textarea></div>
+        <div class="row">
+          <button class="btn sky" data-ask="claude">Claude</button>
+          <button class="btn sky" data-ask="chatgpt">ChatGPT</button>
+          <button class="btn sky" data-ask="gemini">Gemini</button>
+        </div>
+        <p class="hint" style="margin-top:10px">The reply appears in that app. Websites don't let me read it back, so paste it here if you want to talk about it.</p>
+      </div>
+    </div></section>
+
+    <section class="view" id="v-me"><div class="scroll">
+      <div class="card-a">
+        <h3><span data-i="user"></span> About you</h3>
+        <div class="field"><span>Your name</span><input data-bind="profile.name" placeholder="Axter"></div>
+        <div class="field"><span>What should I call you?</span><input data-bind="profile.nick" placeholder="a nickname, if you like"></div>
+        <div class="field"><span>Tell me about yourself</span><textarea data-bind="profile.about" placeholder="What you study or work on, what you love, what worries you"></textarea></div>
+      </div>
+      <div class="card-a">
+        <h3><span data-i="heart"></span> What I remember</h3>
+        <p>I add things here as we talk. You can add, fix or delete any of it.</p>
+        <div id="memList"></div>
+        <div class="row"><input class="field" id="memNew" style="flex:1;min-width:0;border:2px solid transparent;border-radius:16px;padding:11px 14px;background:rgba(127,127,160,.14);outline:0;font-size:15px" placeholder="Add something for me to remember"><button class="btn" id="memAdd">Add</button></div>
+      </div>
+    </div></section>
+  </main>
+
+  <nav class="tabbar" aria-label="Sections">
+    <button class="tab on" data-v="chat"><span data-i="chat"></span>Chat</button>
+    <button class="tab" data-v="mood"><span data-i="heart"></span>Words</button>
+    <button class="tab" data-v="media"><span data-i="play"></span>Play</button>
+    <button class="tab" data-v="me"><span data-i="user"></span>Me</button>
+  </nav>
+</div>
+
+<!-- ───── dashboard ───── -->
+<div id="dash">
+  <header class="d-head">
+    <img id="dashLogo" src="icon-192.png" alt="">
+    <div><h1>Opu</h1><small id="dashSub">Dashboard</small></div>
+    <span class="sp"></span>
+    <button class="dbtn" data-act="toApp"><span data-i="chat"></span><span class="hide-sm">Chat</span></button>
+    <button class="dbtn icon" data-act="dSettings" aria-label="Settings" data-i="sliders"></button>
+  </header>
+
+  <div class="bento" id="bento">
+    <article class="dc hero s-5 r-4" style="--i:0">
+      <h3>Opu · 3D character</h3>
+      <div class="stage" id="stageCard"></div>
+      <div class="poses" id="poseBar"></div>
+      <div class="row"><button class="btn" data-act="editChar">Edit character</button><button class="btn soft" data-act="snap">Save picture</button></div>
+    </article>
+
+    <article class="dc s-4" style="--i:1">
+      <h3><span data-i="brain"></span> AI brain</h3>
+      <div class="big" id="dBrain">Gemini</div>
+      <p id="dBrainSub"></p>
+      <div class="row"><button class="btn soft" data-act="testBrain">Test</button><button class="btn soft" data-act="swapBrain">Switch</button></div>
+    </article>
+
+    <article class="dc s-3" style="--i:2">
+      <h3><span data-i="mic"></span> Voice</h3>
+      <div class="big" id="dVoice">Device</div>
+      <p id="dVoiceSub"></p>
+      <div class="row"><button class="btn soft" data-act="testVoice">Say hi</button></div>
+    </article>
+
+    <article class="dc s-7" style="--i:3">
+      <h3><span data-i="heart"></span> Words for today</h3>
+      <div class="seg" id="dMoodSeg" style="max-width:300px"><button data-m="sad">Low</button><button data-m="happy">Good</button></div>
+      <div class="quote" id="dQuote"></div>
+      <div class="row"><button class="btn" data-act="newQuote">Another</button><button class="btn soft" data-act="aiQuote">Opu writes one</button><button class="btn soft" data-act="speakQuote">Read it</button></div>
+    </article>
+
+    <article class="dc s-7" style="--i:4">
+      <h3><span data-i="sparkle"></span> Quick actions</h3>
+      <div class="qa">
+        <button data-act="toApp"><span data-i="chat"></span>Talk to Opu</button>
+        <button data-act="camera"><span data-i="camera"></span>Camera</button>
+        <button data-act="summon"><span data-i="sparkle"></span>Call to screen</button>
+        <button data-act="toApp" data-go="media"><span data-i="play"></span>YouTube</button>
+        <button data-act="initiate"><span data-i="heart"></span>Text me first</button>
+      </div>
+    </article>
+
+    <article class="dc s-7" style="--i:5">
+      <h3><span data-i="user"></span> Memory</h3>
+      <div class="big" id="dMemN">0 things</div>
+      <div class="list" id="dMemList"></div>
+      <div class="row"><button class="btn soft" data-act="dMemory">Manage memory</button></div>
+    </article>
+
+    <article class="dc s-4" style="--i:6">
+      <h3><span data-i="key"></span> Secrets</h3>
+      <div class="list" id="dKeys"></div>
+      <div class="row"><button class="btn" data-act="dSecrets">Open vault</button></div>
+    </article>
+
+    <article class="dc s-4" style="--i:7">
+      <h3><span data-i="sun"></span> Theme</h3>
+      <p>Applies to the app and this dashboard.</p>
+      <div class="seg" id="themeSeg"><button data-t="system">System</button><button data-t="light">Light</button><button data-t="dark">Dark</button></div>
+    </article>
+
+    <article class="dc s-4" style="--i:8">
+      <h3>App icon</h3>
+      <div class="row" style="align-items:center"><img class="ico" id="appIcoPrev" src="icon-192.png" alt="App icon"><div><button class="btn" data-act="pickAppIcon">Change</button> <button class="btn soft" data-act="resetAppIcon">Reset</button></div></div>
+    </article>
+
+    <article class="dc s-4" style="--i:9">
+      <h3>Dashboard icon</h3>
+      <div class="row" style="align-items:center"><img class="ico" id="dashIcoPrev" src="icon-192.png" alt="Dashboard icon"><div><button class="btn" data-act="pickDashIcon">Change</button> <button class="btn soft" data-act="resetDashIcon">Reset</button></div></div>
+    </article>
+
+    <article class="dc s-4" style="--i:10">
+      <h3>App condition</h3>
+      <div class="list" id="dCond"></div>
+    </article>
+
+    <article class="dc s-4" style="--i:11">
+      <h3>Recent actions</h3>
+      <div class="list" id="dLog"></div>
+    </article>
+
+    <article class="dc s-4" style="--i:12">
+      <h3>About Opu</h3>
+      <div class="big">Version 1.0</div>
+      <p>Developed by Axter.<br>AI brains: Gemini and OpenRouter.<br>Voice: ElevenLabs.</p>
+      <div class="row"><button class="btn soft" data-act="dAbout">Details</button></div>
+    </article>
+  </div>
+</div>
+
+<!-- ───── settings sheet ───── -->
+<div class="sheet" id="settings" role="dialog" aria-label="Settings">
+  <div class="sheet-h"><h2>Settings</h2><button class="round" data-act="closeSettings" aria-label="Close" data-i="close"></button></div>
+  <div class="tabs" id="setTabs"></div>
+  <div class="sheet-b" id="setBody"></div>
+</div>
+
+<!-- ───── character editor ───── -->
+<div class="sheet dashy" id="editor" role="dialog" aria-label="Character editor">
+  <div class="sheet-h"><h2>Opu character</h2><button class="dbtn icon" data-act="closeEditor" aria-label="Close" data-i="close"></button></div>
+  <div class="sheet-b" style="max-width:1100px">
+    <div class="ed">
+      <div><div class="stage" id="stageEd"></div>
+        <div class="poses" id="poseBarEd" style="margin-top:8px"></div>
+        <div class="row"><button class="btn" data-act="edRandom">Surprise me</button><button class="btn soft" data-act="edReset">Reset</button><button class="btn soft" data-act="edSnap">Save picture</button></div>
+        <div class="looks" id="looks"></div>
+      </div>
+      <div id="edBody"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ───── Opu on your screen ───── -->
+<div id="float" hidden>
+  <div id="floatBubble">Hi, I'm here.</div>
+  <div class="mascot-wrap" data-mascot id="floatMas" style="width:104px"></div>
+  <div class="fr">
+    <button class="round" id="fMic" aria-label="Talk" data-i="mic"></button>
+    <button class="round" id="fChat" aria-label="Open chat" data-i="chat"></button>
+    <button class="round" id="fGo" aria-label="Send Opu away" data-i="close"></button>
+  </div>
+</div>
+
+<!-- ───── camera ───── -->
+<div id="cam">
+  <video id="camVideo" playsinline muted autoplay></video>
+  <div class="top"><span id="camNote">Camera is on</span><button id="camClose" class="round" style="color:#27324f" aria-label="Close camera" data-i="close"></button></div>
+  <div class="bar">
+    <button id="camFlip">Flip</button>
+    <button id="camLook" class="go"><span data-i="sparkle"></span>Opu, look</button>
+  </div>
+</div>
+
+<!-- ───── ask permission ───── -->
+<div id="approve">
+  <div class="box">
+    <div data-mascot class="mascot-wrap"></div>
+    <h4 id="apTitle">Can I?</h4>
+    <p id="apText"></p>
+    <div class="row"><button class="btn soft" id="apNo">Not now</button><button class="btn" id="apYes">Yes, go ahead</button></div>
+  </div>
+</div>
+
+<input type="file" id="fileApp" accept="image/*" hidden>
+<input type="file" id="fileDash" accept="image/*" hidden>
+<input type="file" id="fileRef" accept="image/*" hidden>
+<div id="toast" role="status"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+<script src="char3d.js" defer></script>
+<script src="app.js" defer></script>
+</body>
+</html>
